@@ -1,0 +1,140 @@
+{# This simple template derives from ``base.html``. See ``base.html`` for
+   more information about template inheritance. #}
+{%- extends "stand.html" %}
+
+{# Loads some of the macros included with Flask-Bootstrap. We are using the
+   utils module here to automatically render Flask's flashed messages in a
+   bootstrap friendly manner #}
+{% import "bootstrap/utils.html" as utils %}
+
+
+{# Inside the ``content`` is where you should place most of your own stuff.
+   This will keep scripts at the page end and a navbar you add on later
+   intact. #}
+{% block content %}
+
+   <nav class="navbar navbar-inverse navbar-static-top">
+       <div class="container">
+           <div class="navbar-header">
+               <a class="navbar-brand" href="#">Music Recommendation Database</a>
+           </div>
+        </div>
+   </nav>
+
+   <div  class="panel panel-info">
+       <div class="panel-body">
+           <div class="col-md-6">
+               <form class="form form-horizontal" action="" method="post" name="similars">
+                   {{similars_form.hidden_tag()}}
+                   <p>
+                        <h3>Enter the band name:</h3>
+                        {{similars_form.sb_band(size=20)}}<br>
+                   </p>
+                   <p>
+                        <h3>You can also specify track:</h3>
+                        {{ similars_form.sb_track }}
+                   </p>
+                   <p>
+                        <h4>Enter the limit of results (from 0 to 300):</h4>
+                        {{similars_form.sb_limit(size=5)}}<br>
+                   </p>
+                   <p>
+                        <h4>Select what'd you like to get in results</h4>
+                        <input type="radio" name="sb_pref" id="bands" value="pref_bands" checked> Bands </input><br>
+                        <input type="radio" name="sb_pref" id="tracks" value="pref_tracks"> Tracks </input><br>
+                        <!--
+                        <input type="radio" {{ similars_form.sb_pref }}  checked> Bands<br>
+                        <input type="radio" {{ similars_form.sb_pref }} > Tracks<br>
+                        -->
+                   </p>
+                   <p><input type="submit" class="btn btn-primary" value="search!"></p>
+               </form>
+
+                {% if similars_results %}
+
+                    What occures most often with {{ similar_form_band }}: <br>
+
+                    <div class="col-md-6">
+
+                        <table class="table table-striped">
+                            <tbody>
+                            {% for result in similars_results %}
+                                 <tr>
+                                    {% for attr in result %}
+                                     <td>{{ attr }}</td>
+                                    {% endfor %}
+                                 </tr>
+                            {% endfor %}
+                            </tbody>
+
+                        </table>
+
+
+                          </div>
+
+
+                {% endif %}
+           </div>
+
+
+            <div class="col-md-6">
+               <form class="form form-horizontal" action="" method="post" name="similars">
+                   {{vk_posts_form.hidden_tag()}}
+                   <p>
+                        <h3>Enter the band name:</h3>
+                        {{vk_posts_form.vp_band(size=20)}}<br>
+                   </p>
+                   <p>
+                        <h3>You can also specify track:</h3>
+                        {{ vk_posts_form.vp_track }}
+                   </p>
+                   <p>
+                        <h4>Enter the limit of results (from 0 to 300):</h4>
+                        {{vk_posts_form.vp_limit(size=5)}}<br>
+                   </p>
+                   <p>
+                        <h4>Select what'd you like to get in results</h4>
+                        <input type="radio" name="vp_pref" id="bands" value="only_band" checked> Only this band </input><br>
+                        <input type="radio" name="vp_pref" id="tracks" value="only_mixes"> Only mixes </input><br>
+                        <!--
+                        <input type="radio" {{ vk_posts_form.vp_pref }}  checked> Bands<br>
+                        <input type="radio" {{ vk_posts_form.vp_pref }} > Tracks<br>
+                        -->
+                   </p>
+                   <p><input type="submit" class="btn btn-primary" value="search!"></p>
+               </form>
+
+                {% if vp_results %}
+
+                    What occures most often with {{ vp_form_band }}: <br>
+
+                    <div class="col-md-6">
+
+                        <table class="table table-striped">
+                            <tbody>
+                            {% for vp_result in vp_results %}
+                                 <tr>
+                                    {% for attr in vp_result %}
+                                     <td><a href="http://{{ attr }}">{{ attr }}</a></td>
+                                    {% endfor %}
+                                 </tr>
+                            {% endfor %}
+                            </tbody>
+
+                        </table>
+
+
+                          </div>
+
+
+                {% endif %}
+           </div>
+
+
+
+       </div>
+    </div>
+
+
+
+{%- endblock %}

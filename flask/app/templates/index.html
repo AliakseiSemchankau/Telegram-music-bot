@@ -1,0 +1,71 @@
+
+<h1>Music Recommendation Database</h1>
+
+<form action="" method="post" name="similars">
+     {{similars_form.hidden_tag()}}
+    <p>
+        Enter the band name and we will find similar band and will order them by 'popularity':<br>
+        {{similars_form.sb_band(size=20)}}<br>
+    </p>
+    <p>
+        You can also specify some track:<br>
+        {{ similars_form.sb_track }}
+    </p>
+     <p>
+        Enter the limit of results (from 0 to 300):<br>
+        {{similars_form.sb_limit(size=5)}}<br>
+    </p>
+    <p>
+        Select what'd you like to get in results <br>
+        <input type="radio" name="sb_pref" id="bands" value="pref_bands" checked> Bands </input><br>
+        <input type="radio" name="sb_pref" id="tracks" value="pref_tracks"> Tracks </input><br>
+        <!--
+        <input type="radio" {{ similars_form.sb_pref }}  checked> Bands<br>
+        <input type="radio" {{ similars_form.sb_pref }} > Tracks<br>
+        -->
+    </p>
+    <p><input type="submit" value="search!"></p>
+</form>
+
+{% if similars_results %}
+
+    What occures most often with {{ similar_form_band }}: <br>
+
+    <div style="height:300px;width:550px; overflow : scroll;">
+        <table style="width:100%">
+            {% for result in similars_results %}
+                 <tr>
+                    {% for attr in result %}
+                     <td>{{ attr }}</td>
+                    {% endfor %}
+                 </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endif %}
+
+
+<form action="" method="post" name="posts_band">
+     {{posts_with_band_form.hidden_tag()}}
+    <p>
+        Enter the band name and we sill find vk.com posts with it:<br>
+        {{posts_with_band_form.pwb_band(size=20)}}<br>
+    </p>
+     <p>
+        Enter the limit of bands (from 0 to 50):<br>
+        {{posts_with_band_form.pwb_limit(size=5)}}<br>
+    </p>
+    <p><input type="submit" value="search!"></p>
+</form>
+
+{% if posts_with_band_results %}
+    The most popular posts with band: {{ band_pwb_form }}: <br>
+     <table style="width:36%">
+         {% for result in posts_with_band_results %}
+             <tr>
+                 <td>{{ result[0] }}</td>
+             </tr>
+         {% endfor %}
+    </table>
+{% endif %}
+
